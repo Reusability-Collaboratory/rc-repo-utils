@@ -1,4 +1,3 @@
-# Card: https://trello.com/c/Gf2Jn63M/57-command-to-create-new-definition-files
 import errno
 import ntpath
 import os
@@ -47,9 +46,6 @@ def {name}():
 def test_{name}():
     pass
 """
-    test_filename = join(path, "test_{}.py".format(name))
-    with open(test_filename, "w") as file:
-        file.write(test_contents)
     test_filename = join(path, "test_{}.py".format(name))
     with open(test_filename, "w") as file:
         file.write(test_contents)

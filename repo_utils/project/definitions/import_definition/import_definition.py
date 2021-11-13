@@ -1,4 +1,3 @@
-# Trello card: https://trello.com/c/iCFGS1kC/73-import-definition
 from repo_utils import def_from_dir, find_definition
 
 

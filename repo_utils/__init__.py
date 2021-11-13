@@ -198,7 +198,6 @@ def import_space(space_path, reload_defs=False, wrapper=ReloadWrapper):
 
 wrapper = ReloadWrapper
 import_space(space_path, reload_defs, wrapper)
-
 # Note: Deleting the below variables causes problems if importing multiple spaces at once
 # using the __init__.py file at the repository root.
 
