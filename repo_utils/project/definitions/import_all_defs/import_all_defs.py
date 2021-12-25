@@ -12,7 +12,7 @@ def import_all_defs(
     """Import all modules in the repository and return a dictionary of modules
     keyed by definition name
     if search_def is set, will stop search after finding the provided module name"""
-    repo = git.Repo(__file__, search_parent_directories=True)
+    repo = git.Repo(os.getcwd(), search_parent_directories=True)
     repo_root = repo.working_tree_dir
     src_root = join(repo_root, "src")
     defs = {}
