@@ -19,8 +19,11 @@ def list_dependencies(path_or_def: str, package_name: str = None):
     Returns:
         - dependencies (list): List of unique dependent definitions.
     """
+    if path_or_def is None:
+        path_or_def = get_repository_path()
     # if package_name is None:
     # exec(read("TODO/__meta__.py"), meta)
+
     filenames_to_search = []
     dependencies = []
     if os.sep not in path_or_def:
