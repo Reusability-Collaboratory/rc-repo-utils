@@ -28,11 +28,18 @@ def list_dependencies(path_or_def: str, package_name: str = None):
     dependencies = []
     if os.sep not in path_or_def:
         # path_or_def is a definition name.
-        def_path = join(find_definition(path_or_def), f"{path_or_def}.py")
-        file_dependencies = list_file_dependencies(def_path, package_name)
-        dependencies.extend(file_dependencies)
-        for dependency in dependencies:
-            dependencies
+        # Search recursively for dependencies
+        sub_deps = [path_or_def]
+        already_checked = set()
+        while len(sub_deps):
+            dep = sub_deps.pop()
+            if dep in already_checked:
+                continue
+            def_path = join(find_definition(dep), f"{dep}.py")
+            file_dependencies = list_file_dependencies(def_path, package_name)
+            already_checked.add(dep)
+            sub_deps.extend(file_dependencies)
+            dependencies.extend(file_dependencies)
     else:
         # path_or_def is a folder path.
         for dirpath, dirs, files in os.walk(path_or_def):

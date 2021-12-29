@@ -11,6 +11,19 @@ def test_list_def_dependencies():
     assert "find_definition" in deps
 
 
+def test_list_recursive_dependencies():
+    deps = list_dependencies("enable_installing_dependencies", "repo_utils")
+    assert deps
+    expected_deps = [
+        "find_definition",
+        "get_repository_path",
+        "list_dependencies",
+        "enable_installing_dependencies",
+    ]
+    for dep in expected_deps:
+        assert dep in deps
+
+
 def test_list_folder_dependencies():
     deps = list_dependencies(find_definition("find_definition"), "repo_utils")
     assert deps
