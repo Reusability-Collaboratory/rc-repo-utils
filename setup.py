@@ -140,6 +140,11 @@ print(
     "found packages",
     find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
 )
+
+# # Add init file for every definition.
+# from repo_utils import enable_installing_dependencies
+# init_filepaths = enable_installing_dependencies(package_name=meta["path"])
+
 setup(
     # Essential details on the package and its dependencies
     name=meta["name"],
@@ -149,6 +154,7 @@ setup(
     entry_points={
         "console_scripts": [f"repo_utils=repo_utils:start_command_line"],
     },
+    scripts=["install.py"],
     # If any package contains *.txt or *.rst files, include them:
     # package_data={"": ["*.txt", "*.rst"],}
     python_requires=">=3.6",
@@ -180,3 +186,8 @@ setup(
         "upload": UploadCommand,
     },
 )
+
+# # Remove init files created by calling enable_installing_dependencies before setup.
+# for filepath in init_filepaths:
+#     if os.path.exists(filepath):
+#         os.remove(filepath)

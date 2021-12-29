@@ -1,5 +1,6 @@
 import sys
-from os.path import join
+from os import remove
+from os.path import exists, join
 
 from repo_utils import find_definition, pytest_on_path
 
@@ -20,6 +21,9 @@ def test_def(def_name: str, test_func: str = None, namespace: str = None):
     # will only search within the test_def file named after
     # the definition
     if def_dir:
+        init_filepath = join(def_dir, "__init__.py")
+        if exists(init_filepath):
+            remove(init_filepath)
         return pytest_on_path(join(def_dir), test_func=test_func)
     else:
         print(f"No definition found named {def_name}", file=sys.stderr)
