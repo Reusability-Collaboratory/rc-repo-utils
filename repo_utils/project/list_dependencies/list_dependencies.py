@@ -1,6 +1,6 @@
 import os
 import re
-from os.path import join
+from os.path import join, exists
 
 from repo_utils import find_definition, get_repository_path
 
@@ -26,7 +26,7 @@ def list_dependencies(path_or_def: str, package_name: str = None):
 
     filenames_to_search = []
     dependencies = []
-    if os.sep not in path_or_def:
+    if not exists(path_or_def):
         # path_or_def is a definition name.
         # Search recursively for dependencies
         sub_deps = [path_or_def]

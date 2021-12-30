@@ -9,7 +9,7 @@ from repo_utils import find_definition
 def install_def(def_name: str, install=True):
     """Install using install.sh and requirements.txt
     at definition folder
-    If install is False, install.sh won't be run"""
+    If install is False, install.sh and install.py won't be run"""
     def_path = find_definition(def_name)
     if install:
         install_filepath = join(def_path, "install.sh")

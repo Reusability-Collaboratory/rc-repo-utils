@@ -55,7 +55,7 @@ exec(read("repo_utils/__meta__.py"), meta)
 
 # Import the README and use it as the long-description.
 # If your readme path is different, add it here.
-possible_readme_names = ["README.rst", "README.md", "README.txt", "README"]
+possible_readme_names = [os.path.join("repo_utils", "README.md"), "README.rst", "README.md", "README.txt", "README"]
 
 # Handle turning a README file into long_description
 long_description = meta["description"]
