@@ -35,6 +35,10 @@ def list_dependencies(path_or_def: str, package_name: str = None):
             dep = sub_deps.pop()
             if dep in already_checked:
                 continue
+            def_folder = find_definition(dep)
+            if def_folder is None:
+                print(f'list_dependencies: Definition {dep} not found.')
+                continue
             def_path = join(find_definition(dep), f"{dep}.py")
             file_dependencies = list_file_dependencies(def_path, package_name)
             already_checked.add(dep)
