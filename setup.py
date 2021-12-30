@@ -140,9 +140,10 @@ print(
     find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
 )
 
-# # Add init file for every definition.
-# from repo_utils import enable_installing_dependencies
-# init_filepaths = enable_installing_dependencies(package_name=meta["path"])
+# from repo_utils import enable_installing_dependencies, get_repository_path
+# # Add init file for every definition. This is necessary when installing for production,
+# #   and not necessary when installing in development mode with -e (pip install -e .).
+# init_filepaths = enable_installing_dependencies(get_repository_path(), meta["path"])
 
 setup(
     # Essential details on the package and its dependencies
