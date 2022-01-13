@@ -23,6 +23,8 @@ def list_dependencies(path_or_def: str, package_name: str = None):
         path_or_def = get_repository_path()
     # if package_name is None:
     # exec(read("TODO/__meta__.py"), meta)
+    if package_name is None:
+        raise TypeError("list_dependencies: You must specify package_name used for imports.")
 
     filenames_to_search = []
     dependencies = []
@@ -74,15 +76,32 @@ def list_file_dependencies(filepath, package_name):
         if def_name == split_filepath[-2]:
             dependencies.append(split_filepath[-2])
     with open(filepath, "r") as file:
+        within_parens = False
+        after_slash = False
         for line in file.readlines():
             line = line.strip()
-            if not line.startswith("from"):
+            if not after_slash and not within_parens and not line.startswith("from"):
                 continue
+            if after_slash or within_parens:
+                after_slash = False
+                if ')' in line:
+                    within_parens = False
+                    line = line.replace(')', ' ')
+                split_imported = line.split(",")
+                for imported in split_imported:
+                    imported = imported.strip()
+                    if imported:
+                        dependencies.append(imported)
             line = line[4:].strip()  # Remove from.
-            if line.startswith(package_name):
+            if line.startswith(package_name) or after_slash or within_parens:
                 split_line = line.split("import")
                 if len(split_line) > 1:
-                    imported = split_line[1]
+                    imported = split_line[1].strip()
+                    if imported.startswith('('):
+                        within_parens = True
+                        imported = imported[1:]
+                    elif imported.endswith('\\'):
+                        after_slash = True
                     split_imported = imported.split(",")
                     for imported in split_imported:
                         imported = imported.strip()

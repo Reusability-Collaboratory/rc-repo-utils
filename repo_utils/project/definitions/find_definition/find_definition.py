@@ -17,6 +17,8 @@ def find_definition(def_name: str, namespace: str = None):
 
     for dir_path, dirs, _ in os.walk(src_root):
         for dir_name in dirs:
+            if dir_name == "build":
+                continue
             if not namespace or dir_name == namespace:
                 for space_path, space_dirs, space_files in os.walk(
                     join(dir_path, dir_name)

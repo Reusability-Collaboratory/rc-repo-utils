@@ -11,6 +11,14 @@ def test_list_def_dependencies():
     assert "find_definition" in deps
 
 
+def test_parentheses():
+    deps = list_dependencies("simulate_definition", "repo_utils")
+    assert deps
+    assert "find_definition" in deps
+    assert "import_from_dir" in deps
+    assert "import_definition" in deps
+
+
 def test_list_recursive_dependencies():
     deps = list_dependencies("enable_installing_dependencies", "repo_utils")
     assert deps
@@ -40,6 +48,7 @@ def test_list_folder_dependencies():
         "list_dependencies",
         "start_command_line",
         "test_def",
+        "import_from_dir"
     ]
     for dep in expected_deps:
         assert dep in deps
