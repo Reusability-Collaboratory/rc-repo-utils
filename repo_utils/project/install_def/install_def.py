@@ -11,6 +11,10 @@ def install_def(def_name: str, install=True):
     at definition folder
     If install is False, install.sh and install.py won't be run"""
     def_path = find_definition(def_name)
+    if not def_path:
+        print(f'Definition {def_name} not found.')
+        return False
+
     if install:
         install_filepath = join(def_path, "install.sh")
         if isfile(install_filepath):
