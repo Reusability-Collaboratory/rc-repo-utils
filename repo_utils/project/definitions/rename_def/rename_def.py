@@ -46,4 +46,5 @@ def rename_def(def_name: str, target_name: str, namespace: str = None):
                     with open(filename, "w") as file:
                         file.write(new_text)
         return True
+    print(f'Definition {def_dir} not found.')
     return False
