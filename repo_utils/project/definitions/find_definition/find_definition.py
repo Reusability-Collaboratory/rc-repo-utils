@@ -15,8 +15,6 @@ def find_definition(def_name: str, containing_folder: str=None, namespace: str =
         - namespace (str): Within containing_folder, find a folder with this name and search only under this folder.
     """
     if containing_folder is None:
-        src_root = os.getcwd()
-    else:
         repo = git.Repo(containing_folder, search_parent_directories=True)
         src_root = repo.working_tree_dir
     # src_root = join(repo_root, repo.name) # subfolder with same name
