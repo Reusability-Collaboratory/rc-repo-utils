@@ -18,8 +18,7 @@ def find_definition(def_name: str, containing_folder: str=None, namespace: str =
         repo = git.Repo(os.getcwd(), search_parent_directories=True)
         src_root = repo.working_tree_dir
     else:
-        repo = git.Repo(containing_folder, search_parent_directories=True)
-        src_root = repo.working_tree_dir
+        src_root = containing_folder
     # src_root = join(repo_root, repo.name) # subfolder with same name
     # level_offset = len(src_root.split(os.sep)) - 1
 

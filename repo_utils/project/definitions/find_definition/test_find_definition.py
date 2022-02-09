@@ -10,3 +10,6 @@ def test_find_definition():
 
     path = find_definition("TestObj", namespace="functions")
     assert path is None
+
+    path = find_definition("TestObj", containing_folder=find_definition('find_definition'))
+    assert path is None
