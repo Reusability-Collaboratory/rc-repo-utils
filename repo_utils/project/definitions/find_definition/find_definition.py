@@ -1,6 +1,6 @@
 import os
 from os.path import join
-
+import inspect
 import git
 
 
@@ -15,7 +15,15 @@ def find_definition(def_name: str, containing_folder: str=None, namespace: str =
         - namespace (str): Within containing_folder, find a folder with this name and search only under this folder.
     """
     if containing_folder is None:
-        repo = git.Repo(os.getcwd(), search_parent_directories=True)
+        previous_frame = inspect.currentframe().f_back
+        previous_previous_frame = previous_frame.f_back
+        (filename, line_number, function_name, lines, index) = inspect.getframeinfo(previous_previous_frame)
+        if "<frozen" in filename or 'site-packages' in filename:
+            (filename, line_number, function_name, lines, index) = inspect.getframeinfo(previous_frame)
+        if 'repo_utils' in filename:
+            # When using the repo_utils command line, use repository of the current working directory.
+            filename = os.getcwd()
+        repo = git.Repo(filename, search_parent_directories=True)
         src_root = repo.working_tree_dir
     else:
         src_root = containing_folder

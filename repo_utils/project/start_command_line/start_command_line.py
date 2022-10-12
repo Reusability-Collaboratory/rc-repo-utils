@@ -1,6 +1,5 @@
 """ Command line utility for repository """
 import fire
-
 import repo_utils
 
 

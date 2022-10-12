@@ -7,9 +7,11 @@ from repo_utils import find_definition
 
 
 def install_def(def_name: str, install=True):
-    """Install using install.sh and requirements.txt
-    at definition folder
-    If install is False, install.sh and install.py won't be run"""
+    """
+    Install using install.sh, requirements.txt, and install.py
+    at the definition folder (in that order).
+    If install is False, install.sh and install.py won't be run
+    """
     def_path = find_definition(def_name)
     if not def_path:
         print(f'Definition {def_name} not found.')
@@ -23,13 +25,6 @@ def install_def(def_name: str, install=True):
             except subprocess.CalledProcessError as e:
                 print(e.output, file=sys.stderr)
                 return False
-        install_filepath = join(def_path, "install.py")
-        if isfile(install_filepath):
-            try:
-                subprocess.check_output(["python", install_filepath])
-            except subprocess.CalledProcessError as e:
-                print(e.output, file=sys.stderr)
-                return False
     reqs_filepath = join(def_path, "requirements.txt")
     if isfile(reqs_filepath):
         try:
@@ -38,4 +33,12 @@ def install_def(def_name: str, install=True):
         except subprocess.CalledProcessError as e:
             print(e.output, file=sys.stderr)
             return False
+    if install:
+        install_filepath = join(def_path, "install.py")
+        if isfile(install_filepath):
+            try:
+                subprocess.check_output(["python", install_filepath])
+            except subprocess.CalledProcessError as e:
+                print(e.output, file=sys.stderr)
+                return False
     return True

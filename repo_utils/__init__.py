@@ -92,13 +92,13 @@ class ReloadWrapper(object):
 
     def __call__(self, *args, **kwargs):
         """Load the definition and call it with arguments"""
-        try:
+        if hasattr(self, '_definition'):
             # Once already loaded
-            return self._definition(*args, **kwargs)
-        except AttributeError as e:
-            if hasattr(self, "_definition"):
-                # Must be some other error
-                raise e
+            try:
+                return self._definition(*args, **kwargs)
+            except TypeError:
+                # Not loaded yet
+                pass
         self._definition = self.load_definition()
         try:
             return self._definition(*args, **kwargs)
@@ -131,13 +131,14 @@ class ReloadWrapper(object):
     def definition(self):
         if self._definition:
             return self._definition
-        return self.load_definition()
+        self._definition = self.load_definition()
+        return self._definition
 
-    def __getattr__(self, *args, **kwargs):
+    def __getattribute__(self, *args, **kwargs):
         try:
-            return super().__getattr__(*args, **kwargs)
+            return super().__getattribute__(*args, **kwargs)
         except AttributeError:
-            return self.definition.__getattr__(*args, **kwargs)
+            return self.definition.__getattribute__(*args, **kwargs)
 
     def __setattr__(self, *args, **kwargs):
         try:
@@ -158,10 +159,16 @@ class ReloadWrapper(object):
             return self.definition.__setitem__(*args, **kwargs)
 
     def __str__(self):
-        return str(self.definition)
+        try:
+            return str(self._definition)
+        except Exception:
+            return str(self.definition)
 
     def __repr__(self):
-        return repr(self.definition)
+        try:
+            return repr(self._definition)
+        except Exception:
+            return repr(self.definition)
 
 
 def import_space(space_path, reload_defs=False, wrapper=ReloadWrapper):
