@@ -13,6 +13,9 @@ def find_definition(def_name: str, containing_folder: str=None, namespace: str =
     Args:
         - containing_folder (str): Search only within this directory path. Current working directory by default.
         - namespace (str): Within containing_folder, find a folder with this name and search only under this folder.
+    
+    Returns:
+        - path (str): Filepath of the folder with the same name as def_name.
     """
     if containing_folder is None:
         previous_frame = inspect.currentframe().f_back
@@ -23,8 +26,12 @@ def find_definition(def_name: str, containing_folder: str=None, namespace: str =
         if 'repo_utils' in filename:
             # When using the repo_utils command line, use repository of the current working directory.
             filename = os.getcwd()
-        repo = git.Repo(filename, search_parent_directories=True)
-        src_root = repo.working_tree_dir
+        try:
+            repo = git.Repo(filename, search_parent_directories=True)
+            src_root = repo.working_tree_dir
+        except git.exc.InvalidGitRepositoryError:
+            print(f'Could not find git repository root for the filepath {filename}')
+            return None
     else:
         src_root = containing_folder
     # src_root = join(repo_root, repo.name) # subfolder with same name

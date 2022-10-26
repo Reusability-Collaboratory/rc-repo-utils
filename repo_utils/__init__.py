@@ -85,6 +85,7 @@ class ReloadWrapper(object):
     def __init__(self, def_filename, space_name, mod_name, reload_def=False):
         """save the file location of the definition to load later"""
         self.def_filename = def_filename
+        self._definition = None
         if not reload_def:
             self.space_name = space_name
             self.mod_name = mod_name
@@ -92,7 +93,7 @@ class ReloadWrapper(object):
 
     def __call__(self, *args, **kwargs):
         """Load the definition and call it with arguments"""
-        if hasattr(self, '_definition'):
+        if self._definition is not None:
             # Once already loaded
             try:
                 return self._definition(*args, **kwargs)
