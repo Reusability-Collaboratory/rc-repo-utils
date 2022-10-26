@@ -5,7 +5,7 @@ name = "rc-repo-utils"
 path = "repo_utils"
 # Your version number should follow https://python.org/dev/peps/pep-0440 and
 # https://semver.org
-version = "0.2.0"
+version = "0.2.1"
 author = "Joshua Mathias"
 author_email = "joshuaamathias@gmail.com"
 description = "Repository utilities to facilitate collaborative and modularized coding."  # One-liner
